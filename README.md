@@ -1,9 +1,11 @@
-This crate implements a counter that can be distributed to different tasks and also can be awaited to reach any given value.
+This crate provides a counter that can be shared among different tasks and can be awaited until it reaches a specified value.
 
-Consider the following example: 
-A bunch of async tasks increment/decrement a shared value. Simultaneously, another tasks needs to ensure that
-the shared value is at least as large a specific target. The following snippet showcases an application of `Counter`
-with a single child task incrementing the shared value, while the main tasks await on it to reach a specific target.
+Consider the following scenario.
+Several asynchronous tasks are incrementing/decrementing a shared value.
+At the same time, another task needs to ensure that the shared value reaches at least a specific target.
+The following code demonstrates how to use the `Counter` in a simplified scenario.
+One child task increments the shared value, while the main task awaits it to reach a specific target.
+
 ```rust 
 let counter = Counter::to(10);
 let mut count = counter.clone();
@@ -12,8 +14,10 @@ let mut count = counter.clone();
 tokio::spawn(async move { 
     for i in 0u8..20 {
         // Simulate some processing
-        time::sleep(counting_interval).await;
+        time::sleep(Duration::from_secs(1)).await;
         count = count + 5;
+        // or
+        // count += 5;
     } 
 });
 
