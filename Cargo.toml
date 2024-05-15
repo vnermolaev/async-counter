@@ -1,6 +1,6 @@
 [package]
-name = "async_counter"
-version = "0.1.1"
+name = "async-counter"
+version = "0.1.0"
 edition = "2021"
 authors = [
     "Victor Ermolaev <victorermolaev@gmail.com>",
