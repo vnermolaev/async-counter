@@ -32,7 +32,7 @@ impl Counter {
 
     /// Inner function incrementing the [Counter] value and waking a waker if any.
     fn inc(&self, rhs: usize) {
-        self.value.fetch_add(rhs, Ordering::SeqCst);
+        self.value.fetch_add(rhs, Ordering::Relaxed);
         if let Some(waker) = self.waker.lock().expect(Self::MUST_LOCK).take() {
             waker.wake()
         }
@@ -40,7 +40,7 @@ impl Counter {
 
     /// Inner function decrementing the [Counter] value and waking a waker if any.
     fn dec(&self, rhs: usize) {
-        self.value.fetch_sub(rhs, Ordering::SeqCst);
+        self.value.fetch_sub(rhs, Ordering::Relaxed);
         if let Some(waker) = self.waker.lock().expect(Self::MUST_LOCK).take() {
             waker.wake()
         }
@@ -51,7 +51,7 @@ impl Future for Counter {
     type Output = usize;
 
     fn poll(self: Pin<&mut Self>, cx: &mut Context<'_>) -> Poll<Self::Output> {
-        let value = self.value.load(Ordering::SeqCst);
+        let value = self.value.load(Ordering::Relaxed);
         if value >= self.target {
             Poll::Ready(value)
         } else {
