@@ -30,6 +30,16 @@ impl Counter {
         Self::new(0, target)
     }
 
+    /// Fetch the current [Counter] value.
+    pub fn value(&self) -> usize {
+        self.value.load(Ordering::Relaxed)
+    }
+
+    /// Fetch the `target` [Counter] value.
+    pub fn target(&self) -> usize {
+        self.target
+    }
+
     /// Inner function incrementing the [Counter] value and waking a waker if any.
     fn inc(&self, rhs: usize) {
         self.value.fetch_add(rhs, Ordering::Relaxed);
