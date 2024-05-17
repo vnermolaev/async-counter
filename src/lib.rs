@@ -55,6 +55,17 @@ impl Counter {
             waker.wake()
         }
     }
+
+    /// Inner function setting the [Counter] value and waking a waker if any.
+    ///
+    /// Operator `=` has no backing trait, thus this method must be exposed directly.
+    pub fn set(&self, rhs: usize) {
+        self.value.store(rhs, Ordering::Relaxed);
+
+        if let Some(waker) = self.waker.lock().expect(Self::MUST_LOCK).take() {
+            waker.wake()
+        }
+    }
 }
 
 impl Future for Counter {

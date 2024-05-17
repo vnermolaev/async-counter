@@ -1,6 +1,6 @@
 [package]
 name = "async_counter"
-version = "0.1.2"
+version = "0.1.3"
 edition = "2021"
 authors = [
     "Victor Ermolaev <victorermolaev@gmail.com>",
@@ -12,7 +12,6 @@ license = "MIT OR Apache-2.0"
 keywords = ["future", "counter"]
 description = "Counter that implements a future to await on specific value. "
 readme = "README.md"
-
 
 [dependencies]
 
